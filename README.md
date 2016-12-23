@@ -26,9 +26,12 @@ The result will be total dynamic range, expressed in stops.
 
 #Add-On
 Based on Troy's answer, here is a little Add-on that places a button in the Image Editor at the end of the Scopes Tab, and provides an operator that stores the EV value in a Custom Property of the image itself. This way, it will be saved with the Blender scene and doesn't need to be recalculated all the time. Note that all credits go to troy_s, I just don't have any other chance to post the Add-on than to write it as an answer.
+
 Based on user request, I refactored the code a bit to also work on the Render Result slot. The issue is that the Render Result Slot does not expose the needed **.pixels** parameter. Basically, I'm looking for a Composite Node in the Node Tree. If the user had not used it at all so far, the 'use nodes' checkbox will be set, and thus a Comp node will be thrown in automatically. Then I'm searching for the Image input of the Comp node, and hook up a Viewer Node to that. If there is a Viewer Node in the tree already, I re-use it. This way, the users Composition is not destroyed.
+
 Using the numpy library, there is a significant speedup in the calculation of the end result. Also, the min and max scene referred value are now displayed for the user to better judge the meaningfulness of the given range. The issue is, CG renderings tend to contain very low pixel values, close to black, resulting in ridiculously high dynamic ranges. No real way to fix this, but at least it can be exposed to the viewer.
 Note that this method will actually measure the FStop range (I also renamed all references for clarity) of the whole composition.
+
 You can also measure the Viewer Node with this Add-on. The benefit of this is that you can set up and tweak an HDRI image in the Compositor to fulfill a certain FStop range by doing crazy node stuff after throwing in the HDR image. Once you found the node setup that works for you, you can replicate it in the World Node Tree. Or render out the HDR Image into a new one (i.e. baking the new range). Note that you need to re-run the calculation every time you change the comp, updating it automatically would be much too expensive.
 
 ##Usage
