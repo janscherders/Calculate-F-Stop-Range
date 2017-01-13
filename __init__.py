@@ -7,7 +7,7 @@ Created on 13.01.2017
 bl_info = {
 	"name": "Calculate FStop Range",
 	"author": "Rainer Trummer, based on Troy James Sobotka's work",
-	"version": (0, 1, 5),
+	"version": (0, 2, 0),
 	"blender": (2, 77, 0),
 	"description": "calculates the dynamic range of an image by comparing darkest and brightest scene referred value",
 	"category": "Image"
