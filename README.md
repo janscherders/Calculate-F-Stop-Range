@@ -34,5 +34,16 @@ Note that this method will actually measure the FStop range (I also renamed all 
 
 You can also measure the Viewer Node with this Add-on. The benefit of this is that you can set up and tweak an HDRI image in the Compositor to fulfill a certain FStop range by doing crazy node stuff after throwing in the HDR image. Once you found the node setup that works for you, you can replicate it in the World Node Tree. Or render out the HDR Image into a new one (i.e. baking the new range). Note that you need to re-run the calculation every time you change the comp, updating it automatically would be much too expensive.
 
-##Usage
-Go to the **Image Editor**, display an Image (load in an HDRI, or look at your comp through the Viewer Node). In the toolbar under the scopes you'll find a button to **calculate the FStop range**. If you want to use it on the Render Result, be aware that a workaround is needed. The Add-on will setup a comp for you, connecting whatever goes to the Comp node to a new Viewer Node. However, the Viewer Node only updates **after** a render. In plain English: If you start fresh, setup a scene, render, go to the Image Editor, preview the Render Result, and click **measure FStop range**, nothing happens. Why? Because when you clicked, the viewer node has just been created, but it hasn't received any data yet. Re-Render or switch to the Viewer Node in the Image Editor manually and measure again. Then it should work fine.
+##Usage in Blender up to 2.79b
+Git checkout or download the master branch of the Add-on and install it as usual.
+
+Go to the **Image Editor**, display an Image (load in an HDRI, or look at your comp through the Viewer Node). In the toolbar under the scopes you'll find a button to **calculate the FStop range**.
+
+If you want to use it on the Render Result, be aware that a workaround is needed. The Add-on will setup a comp for you, connecting whatever goes to the Comp node to a new Viewer Node. However, the Viewer Node only updates **after** a render. In plain English: If you start fresh, setup a scene, render, go to the Image Editor, preview the Render Result, and click **measure FStop range**, nothing happens. Why? Because when you clicked, the viewer node has just been created, but it hasn't received any data yet. Re-Render or switch to the Viewer Node in the Image Editor manually and measure again. Then it should work fine.
+
+##Usage in Blender 2.8
+First of all make sure to git check out or download the **blender2.8 branch** of the Add-on and install it as usual.
+
+Go to the **Image Editor**, display an Image (load in an HDRI, or look at your comp through the Viewer Node). In the Properties Panel, under the Image Tab there is a **FStop Range** Sub-Panel. In there you'll find a button to **calculate the FStop range**.
+
+If you want to use it on the Render Result, be aware that a workaround is needed. The Add-on will setup a comp for you, connecting whatever goes to the Comp node to a new Viewer Node. However, the Viewer Node only updates **after** a render. In plain English: If you start fresh, setup a scene, render, go to the Image Editor, preview the Render Result, and click **measure FStop range**, nothing happens. Why? Because when you clicked, the viewer node has just been created, but it hasn't received any data yet. Re-Render or switch to the Viewer Node in the Image Editor manually and measure again. Then it should work fine.
