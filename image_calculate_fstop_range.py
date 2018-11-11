@@ -1,7 +1,10 @@
+import logging
 from math import log
 import numpy
 
 import bpy
+
+logger = logging.getLogger('image_measure_fstop_range')
 
 
 def calc_fstop(operator, context):
@@ -36,8 +39,8 @@ def calc_fstop(operator, context):
 		render_result.pixel_min = img.pixel_min
 		render_result.pixel_max = img.pixel_max
 
-	print('max: %.20f' % _max)
-	print('min: %.20f' % _min)
+	logger.debug('max: %.20f' % _max)
+	logger.debug('min: %.20f' % _min)
 
 
 def render_result_workaround(operator, context):
