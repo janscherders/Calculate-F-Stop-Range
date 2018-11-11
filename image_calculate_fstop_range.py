@@ -96,7 +96,6 @@ class IMAGE_PT_fstop_range(bpy.types.Panel):
 	bl_label = "FStop Range"
 	bl_parent_id = 'IMAGE_PT_image_properties'
 	bl_options = {'DEFAULT_CLOSED'}
-	#    bl_category = "Scopes"
 
 	@classmethod
 	def poll(cls, context):
@@ -109,7 +108,13 @@ class IMAGE_PT_fstop_range(bpy.types.Panel):
 		col.operator(IMAGE_OT_CalcFStopOperator.bl_idname)
 
 		if context.edit_image.fstop_range:
-			col.label(text = 'FStop range: %f' % context.edit_image.fstop_range)
-			col.label(text = 'Scene referred min pixel: %.20f' % context.edit_image.pixel_min)
-			col.label(text = 'Scene referred max pixel: %.20f' % context.edit_image.pixel_max)
+			box = col.box()
+			box.label(text = 'FStop Range: %f' % context.edit_image.fstop_range)
 
+			col = col.column()
+			col.label(text = 'Scene Referred Min Pixel:')
+			col.label(text = '%.20f' % context.edit_image.pixel_min)
+
+			col = col.column()
+			col.label(text = 'Scene Referred Max Pixel:')
+			col.label(text = '%.20f' % context.edit_image.pixel_max)
