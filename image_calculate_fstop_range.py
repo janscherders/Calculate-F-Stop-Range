@@ -1,6 +1,8 @@
-import bpy
 from math import log
 import numpy
+
+import bpy
+
 
 def calc_fstop(operator, context):
 	#    get currently active image in the image editor
@@ -37,6 +39,7 @@ def calc_fstop(operator, context):
 	print('max: %.20f' % _max)
 	print('min: %.20f' % _min)
 
+
 def render_result_workaround(operator, context):
 	context.scene.use_nodes = True
 	tree = context.scene.node_tree
@@ -66,8 +69,10 @@ def render_result_workaround(operator, context):
 	return result
 
 
+#===============================================================================
 #    fstop calculation operator
-class CalcFStopOperator(bpy.types.Operator):
+#===============================================================================
+class IMAGE_OT_CalcFStopOperator(bpy.types.Operator):
 	bl_idname = "image.calc_fstop"
 	bl_label = "calculate fstop range"
 	bl_description = 'Calculates the fstop range of the currently visible image'
@@ -82,12 +87,16 @@ class CalcFStopOperator(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+#===============================================================================
 #    UI function
+#===============================================================================
 class IMAGE_PT_fstop_range(bpy.types.Panel):
 	bl_space_type = 'IMAGE_EDITOR'
-	bl_region_type = 'TOOLS'
+	bl_region_type = 'UI'
 	bl_label = "FStop Range"
-	bl_category = "Scopes"
+	bl_parent_id = 'IMAGE_PT_image_properties'
+	bl_options = {'DEFAULT_CLOSED'}
+	#    bl_category = "Scopes"
 
 	@classmethod
 	def poll(cls, context):
@@ -97,12 +106,10 @@ class IMAGE_PT_fstop_range(bpy.types.Panel):
 		layout = self.layout
 
 		col = layout.column()
-		col.operator(CalcFStopOperator.bl_idname)
+		col.operator(IMAGE_OT_CalcFStopOperator.bl_idname)
 
 		if context.edit_image.fstop_range:
 			col.label(text = 'FStop range: %f' % context.edit_image.fstop_range)
 			col.label(text = 'Scene referred min pixel: %.20f' % context.edit_image.pixel_min)
 			col.label(text = 'Scene referred max pixel: %.20f' % context.edit_image.pixel_max)
-
-
 

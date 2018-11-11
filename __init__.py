@@ -19,7 +19,12 @@ if 'bpy' in locals():
 	imp.reload(image_calculate_fstop_range)    #    @UndefinedVariable
 else:
 	import bpy
-	from . import image_calculate_fstop_range as mod
+	from . import image_calculate_fstop_range as icfsr
+
+__classes__ = (
+	icfsr.IMAGE_OT_CalcFStopOperator,
+	icfsr.IMAGE_PT_fstop_range
+	)
 
 
 def register():
@@ -28,14 +33,17 @@ def register():
 	bpy.types.Image.pixel_min = bpy.props.FloatProperty()
 	bpy.types.Image.pixel_max = bpy.props.FloatProperty()
 
-	bpy.utils.register_module(__name__)
+	for cls in __classes__:
+		bpy.utils.register_class(cls)
 
 
 def unregister():
 	del bpy.types.Image.fstop_range
 	del bpy.types.Image.pixel_min
 	del bpy.types.Image.pixel_max
-	bpy.utils.unregister_module(__name__)
+
+	for cls in reversed(__classes__):
+		bpy.utils.unregister_class(cls)
 
 
 if __name__ == "__main__":
