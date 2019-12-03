@@ -1,8 +1,7 @@
+import bpy
 import logging
 from math import log
 import numpy
-
-import bpy
 
 logger = logging.getLogger('image_measure_fstop_range')
 
@@ -20,9 +19,12 @@ def calc_fstop(operator, context):
 		_numpyImg = numpy.array(render_result_workaround(operator, context).pixels)
 		render_result = bpy.data.images.get('Render Result')
 
+	#    delete every 4th pixel, as this represents the Alpha channel
+	_numpyImg_noAlpha = numpy.delete(_numpyImg, numpy.arange(3, _numpyImg.size, 4))
+
 	#    magic formula to calculate the fstop range
 	try:
-		_nonZeros = numpy.delete(_numpyImg[numpy.nonzero(_numpyImg)], slice(3, None, 4))
+		_nonZeros = _numpyImg_noAlpha[numpy.nonzero(_numpyImg_noAlpha)]
 		_max = numpy.max(_nonZeros)
 		_min = numpy.min(_nonZeros)
 	except ValueError as exc:
