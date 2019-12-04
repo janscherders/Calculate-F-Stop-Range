@@ -30,9 +30,19 @@ def calc_fstop(operator, context):
 	#    as Blender uses REC.709 lights in linear space
 	#    the latter is more tricky, would possible be doable using the Compositor and reading pixels from the Viewer Node
 
+	_numpyImg_noAlpha_rs = _numpyImg_noAlpha.reshape(int(len(_numpyImg_noAlpha) / 3), 3)
+
+	#    multiply the three channels in place with the lightness conversion values
+	_numpyImg_noAlpha_rs[..., 0] *= 0.2126    #    R channel
+	_numpyImg_noAlpha_rs[..., 1] *= 0.7152    #    G channel
+	_numpyImg_noAlpha_rs[..., 2] *= 0.0722    #    B channel
+
+	#    sum the channels now
+	_lightnessPixels = _numpyImg_noAlpha_rs.sum(axis = 1)
+
 	#    magic formula to calculate the fstop range
 	try:
-		_nonZeros = _numpyImg_noAlpha[numpy.nonzero(_numpyImg_noAlpha)]
+		_nonZeros = _lightnessPixels[numpy.nonzero(_lightnessPixels)]
 		_max = numpy.max(_nonZeros)
 		_min = numpy.min(_nonZeros)
 	except ValueError as exc:
