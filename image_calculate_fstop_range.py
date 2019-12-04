@@ -22,6 +22,14 @@ def calc_fstop(operator, context):
 	#    delete every 4th pixel, as this represents the Alpha channel
 	_numpyImg_noAlpha = numpy.delete(_numpyImg, numpy.arange(3, _numpyImg.size, 4))
 
+	#    after discussing with Troy Sobotka, there is two more things to implement
+	#    1) calculate the range based on the luminance of a pixel instead of the lowest and highest linear radiance channel
+	#       see https://medium.com/the-hitchhikers-guide-to-digital-colour/question-12-how-the-f-ck-can-we-talk-about-light-intensity-c6ba0ff0388e
+	#    2) use a pre-pass (lo-pass is suggested) on the pixels
+	#    the first can be achieved by generating a new array based on a REC.709 related formula,
+	#    as Blender uses REC.709 lights in linear space
+	#    the latter is more tricky, would possible be doable using the Compositor and reading pixels from the Viewer Node
+
 	#    magic formula to calculate the fstop range
 	try:
 		_nonZeros = _numpyImg_noAlpha[numpy.nonzero(_numpyImg_noAlpha)]
