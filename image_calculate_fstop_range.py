@@ -135,9 +135,7 @@ class IMAGE_PT_fstop_range(bpy.types.Panel):
 			box.label(text = 'FStop Range: %f' % context.edit_image.fstop_range)
 
 			col = col.column()
-			col.label(text = 'Lightness Min Pixel:')
-			col.label(text = '%.20f' % context.edit_image.pixel_min)
+			col.label(text = f'Lightness Min: {context.edit_image.pixel_min:10f}')
 
 			col = col.column()
-			col.label(text = 'Lightness Max Pixel:')
-			col.label(text = '%.20f' % context.edit_image.pixel_max)
+			col.label(text = f'Lightness Max: {context.edit_image.pixel_max:10f}')
