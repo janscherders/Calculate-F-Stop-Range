@@ -18,8 +18,10 @@ if 'bpy' in locals():
 	import importlib as imp
 	imp.reload(image_calculate_fstop_range)    #    @UndefinedVariable
 else:
-	import bpy
+	import bpy, logging
 	from . import image_calculate_fstop_range as icfsr
+
+logger = logging.getLogger('image_measure_fstop_range')
 
 __classes__ = (
 	icfsr.IMAGE_OT_CalcFStopOperator,
@@ -27,7 +29,17 @@ __classes__ = (
 	)
 
 
+def bg_check():
+
+	if bpy.app.background:
+		logger.warning(f'running in background mode, skipping registering {__package__}')
+
+	return bpy.app.background
+
+
 def register():
+	if bg_check(): return
+
 	#    add a FloatProperty to the image type to store the fstop range
 	bpy.types.Image.fstop_range = bpy.props.FloatProperty()
 	bpy.types.Image.pixel_min = bpy.props.FloatProperty()
@@ -38,6 +50,8 @@ def register():
 
 
 def unregister():
+	if bg_check(): return
+
 	del bpy.types.Image.fstop_range
 	del bpy.types.Image.pixel_min
 	del bpy.types.Image.pixel_max
